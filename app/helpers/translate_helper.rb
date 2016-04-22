@@ -13,10 +13,10 @@ module TranslateHelper
       else
         link_params = params.merge({param_name.to_s => type})
         link_params.merge!({"page" => nil}) if param_name.to_s != "page"
-        filter << link_to(label, link_params)
+        filter << link_to(label, translate.url_for(link_params))
       end
     end
-    filter.join(" | ")    
+    filter.join(" | ")
   end
 
   def n_lines(text, line_size)
@@ -29,7 +29,7 @@ module TranslateHelper
     end
     n_lines
   end
-  
+
   def translate_javascript_includes
     sources = []
     if File.exists?(File.join(Rails.root, "public", "javascripts", "prototype.js"))

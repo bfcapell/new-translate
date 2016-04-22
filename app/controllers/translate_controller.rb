@@ -18,7 +18,7 @@ class TranslateController < ActionController::Base
     @total_entries = @keys.size
   end
 
-  def translate
+  def translate_action
     if params[:key].present?
       I18n.backend.store_translations(@to_locale, Translate::Keys.to_deep_hash(params[:key]))
       Translate::Storage.new(@to_locale, @from_locale).write_to_file(params[:key])
@@ -30,12 +30,12 @@ class TranslateController < ActionController::Base
     else
       flash[:notice] = "No translations supplied"
     end
-    redirect_to params.slice(:filter, :sort_by, :key_type, :key_pattern, :text_type, :text_pattern, :to_locale, :from_locale).merge({:action => :index})
+    redirect_to translate.url_for(params.slice(:filter, :sort_by, :key_type, :key_pattern, :text_type, :text_pattern, :to_locale, :from_locale).merge({:action => :index}))
   end
 
   def reload
     Translate::Keys.files = nil
-    redirect_to :action => 'index'
+    redirect_to translate.url_for(:action => 'index')
   end
 
   private

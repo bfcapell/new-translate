@@ -1,4 +1,4 @@
-<% form_tag(translate_path) do %>
+<%= form_tag(translate_path) do %>
   <div>
     <%= hidden_field_tag(:filter, params[:filter], :id => "hid_filter") %>
     <%= hidden_field_tag(:sort_by, params[:sort_by], :id => "hid_sort_by") %>

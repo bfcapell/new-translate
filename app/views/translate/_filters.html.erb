@@ -6,13 +6,13 @@
   <legend>Search filter</legend>
   <div id="show-sort">
     <p>
-      <label>Show:</label> <%=  simple_filter(show_filters) %>
+      <label>Show:</label> <%= raw simple_filter(show_filters) %>
     </p>
     <p>
-      <label>Sort by:</label> <%= simple_filter(["key", "text"], 'sort_by') %>
+      <label>Sort by:</label> <%= raw simple_filter(["key", "text"], 'sort_by') %>
    </p>
   </div>
-  <% form_tag(params, :method => :get) do %>
+  <%= form_tag(translate.url_for(params), :method => :get) do %>
     <div id="languages">
       <p>
         <%= hidden_field_tag(:filter, params[:filter]) %>
@@ -32,11 +32,11 @@
       <p>
         <label for="text_pattern_value">Text</label>
         <%= select_tag(:text_type, options_for_select(['contains', 'equals'], params[:text_type])) %>
-        <%= text_field_tag(:text_pattern, params[:text_pattern], :size => 50, :id => "text_pattern_value", :class => "text-default") %>	     
+        <%= text_field_tag(:text_pattern, params[:text_pattern], :size => 50, :id => "text_pattern_value", :class => "text-default") %>
       </p>
       <p>
         <%= submit_tag "Search" %>
-        <%= link_to "clear", params.merge({:text_pattern => nil, :key_pattern => nil}) %>
+        <%= link_to "clear", translate.url_for(params.merge({:text_pattern => nil, :key_pattern => nil})) %>
       </p>
     </div>
   <% end %>
@@ -44,6 +44,6 @@
     Found <strong><%= total_entries %></strong> messages
   </p>
   <p>
-    <%= link_to "Reload messages", translate_reload_path %>
+    <%= link_to "Reload messages", translate.reload_path %>
   </p>
 </fieldset>

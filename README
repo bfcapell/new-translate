@@ -1,7 +1,7 @@
 Translate
 =========
 
-This plugin provides a web interface for translating Rails I18n texts (requires Rails 2.2 or higher) from one locale to another. The plugin has been tested only with the simple I18n backend that ships with Rails. I18n texts are read from and written to YAML files under config/locales.
+This plugin provides a web interface for translating Rails I18n texts (requires Rails 3 or higher) from one locale to another. The plugin has been tested only with the simple I18n backend that ships with Rails. I18n texts are read from and written to YAML files under config/locales.
 
 To translate to a new locale you need to add a YAML file for that locale that contains the locale as the top key and at least one translation.
 
@@ -38,18 +38,18 @@ Installation
 =========
 Obtain the source with:
 
-./script/plugin install git://github.com/gnuine/translate.git
+gem 'translate', :git => 'git://github.com/bfcapell/translate'
 
 To mount the plugin, add the following to your config/routes.rb file:
 
-Translate::Routes.translation_ui(map) if RAILS_ENV != "production"
+mount Translate::Engine => '/translate' if Rails.env == 'development'
 
 Now visit /translate in your web browser to start translating.
 
 Dependencies
 =========
 
-- Rails 2.2 or higher
+- Rails 3 or higher
 - The ya2yaml gem if you want your YAML files written in UTF8 encoding.
 
 Authors
@@ -57,6 +57,9 @@ Authors
 
 - Peter Marklund (programming)
 - Joakim Westerlund (web design)
+- Roman Shterenzon (inspiration for Rails 3 and gem packaging)
+- David Lozano (new :origin mode to make it play nice with multiple i18n files)
+- Bernat Foj Capell (final plumber)
 
 Many thanks to http://newsdesk.se for sponsoring the development of this plugin.
 

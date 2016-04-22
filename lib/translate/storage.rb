@@ -21,7 +21,7 @@ class Translate::Storage
     keys.each do |key, value|
       #
       # Search the files where the translation will be applied to
-      decide_filenames(key).each do |filename|        
+      decide_filenames(key).each do |filename|
         (result[filename] ||= []) << key
         # Apply the current translation to the filenames
         #
@@ -54,7 +54,7 @@ class Translate::Storage
         #
         # Save to file updated to disk
         Translate::File.new(filename).write(hash)
-      end      
+      end
     end
     result
   end
