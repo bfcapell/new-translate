@@ -77,6 +77,7 @@ class Translate::Storage
     #       $PROJECT_HOME/vendor/plugins/ubiquo_i18n/config/locales/es/models/locale.yml
     #
     suposed_filename = filename.sub(/(.*)\/#{found_locale}\//, "\\1/#{locale}/")
+    #Rails.logger.info "filename was #{filename}, supposed is #{suposed_filename}, locale #{locale} found_locale #{found_locale}"
 
     # The file may not exist, so we check it and create an empty YAML file if not
     if File.exists?(suposed_filename)
@@ -100,6 +101,7 @@ class Translate::Storage
       filename, found_locale = get_translation_origin_filename(key)
       # If filename is outside rail.root send it to config/locales/external_#{translations_locale_name}.yml
       filename = replace_external_to_application_file_paths(filename) if filename.present?
+      #Rails.logger.info "found_locale #{found_locale} locale #{locale} filename #{filename}"
 
       # Doesn't exist the translation for current locale, but it does in another
       if found_locale.present? && found_locale.to_s != self.locale.to_s
@@ -140,7 +142,7 @@ class Translate::Storage
       # with a locale, so we must avoid them
       #
       # Find the translation in the current_locale
-      translation = I18n.t!(key, :locale => current_locale)
+      translation = I18n.t!(key, :locale => current_locale, :fallback => [])
       # If we found metadata we return the filename
       if (metadata = translation.instance_variable_get(:@metadata)).present? &&
           metadata[:filename].present?
