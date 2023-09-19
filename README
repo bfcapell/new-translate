@@ -60,6 +60,7 @@ Authors
 - Roman Shterenzon (inspiration for Rails 3 and gem packaging)
 - David Lozano (new :origin mode to make it play nice with multiple i18n files)
 - Bernat Foj Capell (final plumber)
+- Eric Roy Almonacid (Replaced deprecated Google Translate API for Azure API.)
 
 Many thanks to http://newsdesk.se for sponsoring the development of this plugin.
 
