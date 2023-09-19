@@ -7,19 +7,31 @@
 
     <%= raw translate_javascript_includes %>
 <script type="text/javascript">
-      google.load("language", "1");
+    //google.load("language", "1"); // DEPRECATED
 
-      function getGoogleTranslation(id, text, from_language, to_language) {
-        text = text.replace(/\{\{/, '__').replace(/\}\}/, '__')
-        google.language.translate(text, from_language, to_language, function(result) {
-          if (!result.error) {
-            result_text = result.translation.unescapeHTML().gsub(/__(.+)__/, function(match){
-              return '{{' + match[1] + '}}';
-            });
-            Form.Element.setValue(id, result_text);
-          }
-        });
-
+    function getGoogleTranslation(id, text, from_language, to_language) {
+		console.log(JSON.stringify([{
+			Text: text
+		}]).replace(/\\"/g, '"').slice(1, -1))
+		fetch(`https://microsoft-translator-text.p.rapidapi.com/translate?api-version=3.0&to%5B0%5D=${to_language}&textType=plain&profanityAction=NoAction`,
+			{
+				method: 'POST',
+				headers: {
+					'content-type': 'application/json',
+					'x-rapidapi-host': 'microsoft-translator-text.p.rapidapi.com',
+					'x-rapidapi-key': '<%= ENV['TRANSLATE_RAPIDAPI_KEY'] %>',  // Free tier: 500k chars/month, 1k requests/hour
+					'x-rapidapi-ua': 'RapidAPI-Playground',
+					'useQueryString' : 'true'
+				},
+				body: JSON.stringify([{
+					Text: text
+				}]).replace(/\\"/g, '"').slice(1, -1)
+			})
+		.then(response => response.json())
+		.then(result => {
+			const result_text = result[0]['translations'][0]['text'];
+			Form.Element.setValue(id, result_text.unescapeHTML());
+		});
     }
 
     /*
